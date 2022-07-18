@@ -10,6 +10,11 @@ import Config
 config :monex,
   ecto_repos: [Monex.Repo]
 
+# Configure the repo table key type
+config :monex, Monex.Repo,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id]
+
 # Configures the endpoint
 config :monex, MonexWeb.Endpoint,
   url: [host: "localhost"],
