@@ -15,6 +15,16 @@ config :monex, Monex.Repo,
   migration_primary_key: [type: :binary_id],
   migration_foreign_key: [type: :binary_id]
 
+# Guardian configs
+config :monex, Monex.AuthGuardian,
+  issuer: "monex",
+  secret_key:
+    System.get_env(
+      "GUARDIAN_SECRET",
+      "7sip0WNndEEd9SrDQDS+8MX7g/LCUJQxteYUrxzh0c9NJp+pwMqpGvdKu4pFqqro"
+    )
+
+
 # Configures the endpoint
 config :monex, MonexWeb.Endpoint,
   url: [host: "localhost"],
