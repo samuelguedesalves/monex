@@ -1,19 +1,19 @@
 defmodule Monex.Users.GetAmountTest do
   use Monex.DataCase, async: true
 
-  alias Monex.{Error, Users, User}
+  alias Monex.{Error, User, Users}
 
   import Monex.Factory
 
   test "when user id is valid, return amount" do
-    %User{id: sender_user_id} = insert(:user, %{initial_amount: 20000})
+    %User{id: sender_user_id} = insert(:user, %{initial_amount: 20_000})
     %User{id: receiver_user_id} = insert(:user, %{name: "Gabriel", cpf: Brcpfcnpj.cpf_generate()})
 
-    insert(:transaction, %{amount: 10000, from_user: sender_user_id, to_user: receiver_user_id})
+    insert(:transaction, %{amount: 10_000, from_user: sender_user_id, to_user: receiver_user_id})
 
     result = Users.GetAmount.call(sender_user_id)
 
-    assert {:ok, 10000} == result
+    assert {:ok, 10_000} == result
   end
 
   test "when user id is invalid, return error" do

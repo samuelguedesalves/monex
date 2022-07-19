@@ -1,7 +1,7 @@
 defmodule Monex.Factory do
   use ExMachina.Ecto, repo: Monex.Repo
 
-  alias Monex.{User, Transaction}
+  alias Monex.{Transaction, User}
 
   def user_params_factory do
     %{
