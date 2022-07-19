@@ -1,7 +1,7 @@
 defmodule Monex.Factory do
   use ExMachina.Ecto, repo: Monex.Repo
 
-  alias Monex.User
+  alias Monex.{User, Transaction}
 
   def user_params_factory do
     %{
@@ -19,6 +19,12 @@ defmodule Monex.Factory do
       initial_amount: 200_000,
       password: "123456",
       password_hash: Pbkdf2.hash_pwd_salt("123456")
+    }
+  end
+
+  def transaction_factory do
+    %Transaction{
+      amount: 2000
     }
   end
 end
