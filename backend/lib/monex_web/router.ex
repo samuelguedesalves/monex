@@ -12,6 +12,11 @@ defmodule MonexWeb.Router do
     post "/login", UsersController, :auth
 
     get "/users/details", UsersController, :show
+
+    get "/transactions", TransactionsController, :index
+    get "/transactions/:id", TransactionsController, :show
+    post "/transactions", TransactionsController, :create
+    post "/transactions/reverse/:id", TransactionsController, :reverse
   end
 
   # Enables LiveDashboard only for development
