@@ -7,6 +7,11 @@ defmodule MonexWeb.Router do
 
   scope "/api", MonexWeb do
     pipe_through :api
+
+    post "/sign_up", UsersController, :create
+    post "/login", UsersController, :auth
+
+    get "/users/details", UsersController, :show
   end
 
   # Enables LiveDashboard only for development

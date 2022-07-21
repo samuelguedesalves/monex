@@ -17,12 +17,34 @@ defmodule MonexWeb do
   and import those modules here.
   """
 
+  alias Monex.{Error, User}
+  alias MonexWeb.Helpers.GetAssignUser
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: MonexWeb
 
       import Plug.Conn
       alias MonexWeb.Router.Helpers, as: Routes
+
+      @doc """
+      Get assign user
+
+      ## Params
+      - conn: represent the connection
+
+      ## Example
+
+          def index(conn, _params) do
+            {:ok, %User{name: name}} = get_assign_user(conn)
+
+            conn
+            |> put_status(:ok)
+            |> json(%{username: name})
+          end
+      """
+      @spec get_assign_user(conn :: Plug.Conn.t()) :: {:ok, User.t()} | Error.t()
+      def get_assign_user(conn), do: GetAssignUser.call(conn)
     end
   end
 
