@@ -36,17 +36,31 @@ module.exports = {
       {
         devDependencies: [
           '**/*.config.ts',
-          '**/*.test.ts',
-          '**/*.test.tsx',
+          '**/*.spec.ts',
+          '**/*.spec.tsx',
+          '**/test/setup.ts',
         ],
       },
     ],
+    'linebreak-style': ['error', 'unix'],
+    'import/prefer-default-export': 'off',
   },
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts'],
       },
     },
   },
+  overrides: [
+    {
+      files: [
+        '**/*.spec.ts',
+        '**/*.spec.tsx',
+      ],
+      env: {
+        jest: true,
+      },
+    },
+  ],
 };
