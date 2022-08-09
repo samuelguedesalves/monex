@@ -54,7 +54,8 @@ defmodule Monex.MixProject do
       {:guardian, "~> 2.0"},
       {:excoveralls, "~> 0.10", only: :test},
       {:ex_machina, "~> 2.7.0", only: :test},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:cors_plug, "~> 3.0", only: [:dev]}
     ]
   end
 
