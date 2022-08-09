@@ -15,6 +15,9 @@ defmodule Monex.User do
     field :initial_amount, :integer
     field :password, :string, virtual: true
     field :password_hash, :string
+    field :total_amount, :integer, virtual: true
+    field :income_amount, :integer, virtual: true
+    field :outcome_amount, :integer, virtual: true
 
     timestamps()
   end

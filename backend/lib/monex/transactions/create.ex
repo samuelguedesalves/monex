@@ -37,7 +37,7 @@ defmodule Monex.Transactions.Create do
 
   def call(%{amount: amount, to_user_cpf: to_user_cpf, from_user_id: from_user_id}) do
     Repo.transaction(fn ->
-      with {:ok, total_amount} <- Users.GetAmount.call(from_user_id),
+      with {:ok, %{total_amount: total_amount}} <- Users.GetAmount.call(from_user_id),
            {:ok, receiver_user_id} <- cast_receiver_user_cpf(to_user_cpf),
            :ok <- validate_id_difference(from_user_id, receiver_user_id),
            {:ok, params} <- mount_params(total_amount, amount, receiver_user_id, from_user_id),

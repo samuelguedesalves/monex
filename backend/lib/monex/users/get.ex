@@ -1,5 +1,5 @@
 defmodule Monex.Users.Get do
-  alias Monex.{Error, Repo, User}
+  alias Monex.{Error, Repo, User, Users}
 
   import Ecto.Query
 
@@ -46,10 +46,18 @@ defmodule Monex.Users.Get do
   @spec by_id(Ecto.UUID.t()) :: {:ok, User.t()} | Error.t()
 
   def by_id(id) do
-    case Repo.get(User, id) do
-      nil -> Error.build(:not_found, "user is not found")
-      user -> {:ok, user}
-    end
+    {:ok, result} =
+      Repo.transaction(fn ->
+        with %User{} = user <- Repo.get(User, id),
+             {:ok, %User{} = user} <- load_user_amount(user) do
+          {:ok, user}
+        else
+          nil -> Error.build(:not_found, "user is not found")
+          %Error{} = error -> error
+        end
+      end)
+
+    result
   end
 
   defp validate_cpf(cpf) do
@@ -61,13 +69,29 @@ defmodule Monex.Users.Get do
   defp get({:ok, cpf}) do
     query = from u in User, where: u.cpf == ^cpf
 
-    case Repo.one(query) do
-      nil -> Error.build(:not_found, "user is not found")
-      user -> {:ok, user}
-    end
+    {:ok, result} =
+      Repo.transaction(fn ->
+        with %User{} = user <- Repo.one(query),
+             {:ok, %User{} = user} <- load_user_amount(user) do
+          {:ok, user}
+        else
+          nil -> Error.build(:not_found, "user is not found")
+          %Error{} = error -> error
+        end
+      end)
+
+    result
   end
 
   defp get({:error, reason}) do
     Error.build(:bad_request, reason)
+  end
+
+  defp load_user_amount(%User{id: user_id} = user) do
+    with {:ok, user_amounts} <- Users.GetAmount.call(user_id) do
+      user = Map.merge(user, user_amounts)
+
+      {:ok, user}
+    end
   end
 end

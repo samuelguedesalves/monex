@@ -33,7 +33,13 @@ defmodule Monex.Users.GetAmount do
           outcome_amount = get_outcome_transactions_amount(user_id)
 
           total_amount = initial_amount + income_amount - outcome_amount
-          {:ok, total_amount}
+
+          {:ok,
+           %{
+             total_amount: total_amount,
+             income_amount: income_amount,
+             outcome_amount: outcome_amount
+           }}
       end
     end)
     |> handle_transaction_result()
