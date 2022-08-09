@@ -13,7 +13,7 @@ defmodule Monex.Users.GetAmountTest do
 
     result = Users.GetAmount.call(sender_user_id)
 
-    assert {:ok, 10_000} == result
+    assert {:ok, %{total_amount: 10_000, outcome_amount: 10_000, income_amount: 0}} == result
   end
 
   test "when user id is invalid, return error" do
